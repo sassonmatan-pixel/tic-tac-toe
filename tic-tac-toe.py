@@ -12,18 +12,11 @@ def play_game():
     def bording_game():
         for index, val in enumerate(bording):
             match index :
-                case 0 | 1:
+                case 0 | 1 | 3 | 4 | 6 | 7 :
                     print( " " + val + " " + "|", end='')
-                case 2:
+                case 2 | 5:
                     print( f' {val}', end = " ")
                     print(f"\n---+---+---")
-                case 3 | 4:
-                    print(" " + val + " " + "|", end='')
-                case 5:
-                    print( " " + val + " ", end='')
-                    print(f"\n---+---+---")
-                case 6 | 7:
-                    print( " " + val + " " + "|", end='')
                 case 8:
                     print( " " + val + " ")
 
