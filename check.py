@@ -1,3 +1,3 @@
-bording = ['1','2','3','4','5','6','7','8','9']
-if '1' in bording:
-    print(9)
+RED = "\033[31m"
+
+print(RED+"⨉")
