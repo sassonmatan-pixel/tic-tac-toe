@@ -66,8 +66,8 @@ def play_game(count_x,count_O):
 
     def welcome_to_tic_tac_toe():
         while True:
-            print("welcome to tic-tac-toe\n")
-            user_input = input(f"\tPress'1' for 2 players...\n\t\t\tor\n\tPress '2' for computer player...\n\t\t\tor\n\tPress '3' for exit\n")
+            print(f"{YELLOW}____welcome to tic-tac-toe____{RESET}\n")
+            user_input = input(f"\tPress{RED}'1'{RESET} for {GREEN}2{RESET} players...\n\t\t\tor\n\tPress {RED}'2'{RESET} for computer player...\n\t\t\tor\n\tPress {RED}'3'{RESET} for exit\n")
             if not user_input.isdigit():
                 user_input = input(f"{RED}press again only numbers{RESET}")
             else:
@@ -132,4 +132,4 @@ def play_game(count_x,count_O):
         pass
 
 play_game(0,0)
-print("good bye")
+print("\tgood bye")
