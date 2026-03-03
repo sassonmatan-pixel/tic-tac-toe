@@ -9,7 +9,10 @@ def play_game(count_x,count_O):
     GREEN = "\033[32m"
     YELLOW = "\033[33m"
     RESET = "\033[0m"
-    player = f"{RED}⨉{RESET}"
+    if (count_x + count_O) % 2 == 0:
+        player = f"{RED}⨉{RESET}"
+    else:
+        player = f"{GREEN}◯{RESET}"
 
     #------Functions------
     def bording_game():
