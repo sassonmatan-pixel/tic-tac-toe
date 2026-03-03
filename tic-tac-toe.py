@@ -102,6 +102,7 @@ def play_game(count_x,count_O):
                 if computer_choice in used_bording:
                     continue
                 else:
+                    used_bording.append(computer_choice)
                     return computer_choice
 
     def counter(count_x, count_O, result):
