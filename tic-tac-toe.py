@@ -115,19 +115,22 @@ def play_game(count_x,count_o,count_games):
                     used_boarding.append(computer_choice)
                     return str(computer_choice)
 
-    def counter(count_a, count_b, _result):
-        if _result == f"{RED}⨉{RESET}":
+    def counter(count_a, count_b, win_player):
+        if win_player == f"{RED}⨉{RESET}":
             count_a += 1
             print(f"{YELLOW}player '{RED}⨉{YELLOW}' have {count_a} points,player '{GREEN}◯{YELLOW}' have {count_b} points{RESET}")
-        elif _result == f"{GREEN}◯{RESET}":
+        elif win_player == f"{GREEN}◯{RESET}":
             count_b += 1
             print(f"{YELLOW}player '{RED}⨉{YELLOW}' have {count_a} points,player '{GREEN}◯{YELLOW}' have {count_b} points{RESET}")
         return count_a, count_b
 
     #-----game------
+    #Reset Game points
     display_choice = welcome_to_tic_tac_toe()
     if display_choice == 0:
         play_game(0, 0, 0)
+
+    #game players and computer
     elif display_choice == 1 or display_choice == 2:
         boarding_game()
         for _ in boarding:
@@ -138,17 +141,21 @@ def play_game(count_x,count_o,count_games):
             player = switch_player(player)
         count_games += 1
         if not is_tie():
-            win_player = player
-            count_x, count_o = counter(count_x, count_o, win_player)
+            count_x, count_o = counter(count_x, count_o, player)
             print(f"{GREEN}The winner is {player}!{RESET}")
         else:
             print(f"{GREEN}Tie!{RESET}")
         rest_the_game(count_x, count_o)
+
+    # switch symbol
     elif display_choice == 3:
         count_games += 1
         play_game(count_x, count_o, count_games)
+
+    # end system
     else:
         print("\t_____Good Bye_____")
 
+#The function of the game
 if __name__ == '__main__':
     play_game(0,0,0)
