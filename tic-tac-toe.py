@@ -1,19 +1,19 @@
-def play_game(count_x,count_o):
+def play_game(count_x,count_o,count_games):
     import random
     #-----Values-----
-    boarding = ['1','2','3','4','5','6','7','8','9']
-    used_boarding = []
+    boarding: list = ['1','2','3','4','5','6','7','8','9']
+    used_boarding: list = []
     # noinspection PyPep8Naming
-    RED = "\033[31m"
+    RED: str = "\033[31m"
     # noinspection PyPep8Naming
-    GREEN = "\033[32m"
+    GREEN: str = "\033[32m"
     # noinspection PyPep8Naming
-    YELLOW = "\033[33m"
+    YELLOW: str = "\033[33m"
     # noinspection PyPep8Naming
-    RESET = "\033[0m"
+    RESET: str = "\033[0m"
 
     #player s the 'x' or 'o'
-    if (count_x + count_o) % 2 == 0:
+    if count_games % 2 == 0:
         player = f"{RED}⨉{RESET}"
     else:
         player = f"{GREEN}◯{RESET}"
@@ -32,9 +32,12 @@ def play_game(count_x,count_o):
 
     def make_move(choice, display_number):
         choice = int(choice)
-        if display_number == 1:
-            boarding[choice - 1] = player
-            boarding_game()
+        if display_number == 1 or (display_number == 2 and player == f"{RED}⨉{RESET}"):
+            if choice == 0:
+                play_game(0,0,0)
+            else:
+                boarding[choice - 1] = player
+                boarding_game()
         else:
             boarding[choice - 1] = player
             print("Computer move...")
@@ -51,12 +54,12 @@ def play_game(count_x,count_o):
             boarding[0] == boarding[4] == boarding[8] or boarding[2] == boarding[4] == boarding[6])
 
     def is_tie():
-        if check_winner():
-            print(f"{GREEN}The winner is {player}!{RESET}")
-            return player
+        if not check_winner():
+            #print(f"{GREEN}Tie!{RESET}")
+            return True
         else:
-            print(f"{GREEN}Tie!{RESET}")
-            return None
+            #print(f"{GREEN}The winner is {player}!{RESET}")
+            return False
 
     def switch_player(user):
         if user == f"{RED}⨉{RESET}":
@@ -69,31 +72,31 @@ def play_game(count_x,count_o):
     def rest_the_game(count_a, count_b):
         print("do you want to play again?")
         input("if yes, press enter")
-        play_game(count_a,count_b)
+        play_game(count_a,count_b,count_games)
 
     def welcome_to_tic_tac_toe():
         while True:
-            print(f"{YELLOW}____welcome to tic-tac-toe____{RESET}\n")
-            user_input = input(f"\tPress{RED}'1'{RESET} for {GREEN}2{RESET} players...\n\t\t\tor\n\tPress {RED}'2'{RESET} for computer player...\n\t\t\tor\n\tPress {RED}'3'{RESET} for exit\n")
+            print(f"{YELLOW}_____welcome to tic-tac-toe______\n{RESET}")
+            user_input = input(f"\tPress{RED} '0'{RESET} reset the game points\n\t\t\tor\n\tPress {RED}'1'{RESET} for {GREEN}2{RESET} players...\n\t\t\tor\n\tPress {RED}'2'{RESET} to play with the computer...\n\t\t\tor\n\tPress {RED}'3'{RESET} switch {player} \n\t\t\tor\n\tPress {RED}'4'{RESET} for exit\n")
             if not user_input.isdigit():
                 print(f"{RED}press again only numbers{RESET}")
             else:
                 user_input = int(user_input)
-                if user_input > 3 or user_input < 1:
+                if user_input > 4 or user_input < 0:
                     print(f"{RED}invalid input{RESET}")
                     continue
                 return user_input
 
     def get_move(display_number):
-        if display_number == 1 or display_number == 2 and player == f"{RED}⨉{RESET}":
+        if display_number == 1 or (display_number == 2 and player == f"{RED}⨉{RESET}"):
             while True:
-                choice = input(f"Player {player} choose a spot (1-9)\n")
+                choice = input(f"Player {player} choose a spot (1-9)\nYou can reset the game if you click {RED}'0'{RESET}\n")
                 if choice.isdigit():
                     choice = int(choice)
                     if choice in used_boarding:
                         print(f'{RED}This spot is already taken{RESET}')
                         continue
-                    elif choice > 9 or choice < 1:
+                    elif choice > 9 or choice < 0:
                         print(f"{RED}Please choose a number between 1 and 9{RESET}")
                         continue
                     else:
@@ -110,7 +113,7 @@ def play_game(count_x,count_o):
                     continue
                 else:
                     used_boarding.append(computer_choice)
-                    return computer_choice
+                    return str(computer_choice)
 
     def counter(count_a, count_b, _result):
         if _result == f"{RED}⨉{RESET}":
@@ -123,7 +126,9 @@ def play_game(count_x,count_o):
 
     #-----game------
     display_choice = welcome_to_tic_tac_toe()
-    if display_choice == 1 or display_choice == 2:
+    if display_choice == 0:
+        play_game(0, 0, 0)
+    elif display_choice == 1 or display_choice == 2:
         boarding_game()
         for _ in boarding:
             users_choice = get_move(display_choice)
@@ -131,12 +136,19 @@ def play_game(count_x,count_o):
             if check_winner():
                 break
             player = switch_player(player)
-        result = is_tie()
-        count_x, count_o = counter(count_x, count_o, result)
+        count_games += 1
+        if not is_tie():
+            win_player = player
+            count_x, count_o = counter(count_x, count_o, win_player)
+            print(f"{GREEN}The winner is {player}!{RESET}")
+        else:
+            print(f"{GREEN}Tie!{RESET}")
         rest_the_game(count_x, count_o)
-
+    elif display_choice == 3:
+        count_games += 1
+        play_game(count_x, count_o, count_games)
     else:
-        print("\tgood bye")
+        print("\t_____Good Bye_____")
 
 if __name__ == '__main__':
-    play_game(0, 0)
+    play_game(0,0,0)
